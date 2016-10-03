@@ -8,7 +8,7 @@
 
             elevators.map(elevator=>{
                 
-                if(elevator.loadFactor < 0.8) elevator.goToFloor(floor)
+                if(elevator.loadFactor() < 0.8) elevator.goToFloor(floor)
                 
             })
             
