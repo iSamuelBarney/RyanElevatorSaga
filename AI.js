@@ -14,7 +14,7 @@
                 let currentFloor = false
                 if(current && current.currentFloor()) currentFloor = current.currentFloor()
                 let previousFloor = false
-                if(previous) previousFloor = previous.currentFloor()
+                if(previous && previous.currentFloor()) previousFloor = previous.currentFloor()
                 
                 if(currentFloor && previousFloor) {
                     if(getDistance(currentFloor,floor)>=getDistance(previousFloor,floor)) return current
@@ -27,7 +27,10 @@
                 return current
             })
             
-            elevator.goToFloor(floor)
+            //console.log(elevator)
+            
+            
+            //elevator.goToFloor(floor)
 
             
         }
