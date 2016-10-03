@@ -3,14 +3,25 @@
 
 
     init: function(elevators, floors) {
+        
+        const getDistance = (a,b) => {
+            return Math.abs(a-b)
+        }
 
         const handleButton = (direction,floor) => {
 
-            elevators.map(elevator=>{
+            const elevator = elevators.filter(e=>e.loadFactor()<0.6).reduce((previous,current,index,array)=>{
+                const currentFloor = current.currentFloor()
+                let previousFloor = false
+                if(previous) previousFloor = previous.currentFloor()
                 
-                if(elevator.loadFactor() < 0.8) elevator.goToFloor(floor)
+                if(getDistance(currentFloor,floor)>=getDistance(previousFloor,floor)) return current
                 
+                return previous
             })
+            
+            elevator.goToFloor(floor)
+
             
         }
 
@@ -39,7 +50,7 @@
 
                 if(floors[floorNum].buttonStates.up || floors[floorNum].buttonStates.down == 'activated') stopping = true // floor has passengers waiting
 
-                if(stopping && elevator.loadFactor() > 0.8) stopping = false
+                if(stopping && elevator.loadFactor() > 0.6) stopping = false
 
                 if(stopping) elevator.goToFloor(floorNum,true) // if we are stopping, let's stop right now
 
