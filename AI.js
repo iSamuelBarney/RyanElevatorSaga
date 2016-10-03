@@ -11,13 +11,20 @@
         const handleButton = (direction,floor) => {
 
             const elevator = elevators.filter(e=>e.loadFactor()<0.6).reduce((previous,current,index,array)=>{
-                const currentFloor = current.currentFloor()
+                let currentFloor = false
+                if(current && current.currentFloor()) currentFloor = current.currentFloor()
                 let previousFloor = false
                 if(previous) previousFloor = previous.currentFloor()
                 
-                if(getDistance(currentFloor,floor)>=getDistance(previousFloor,floor)) return current
+                if(currentFloor && previousFloor) {
+                    if(getDistance(currentFloor,floor)>=getDistance(previousFloor,floor)) return current
+                }
                 
-                return previous
+                if(previous) {
+                    return previous
+                }
+                
+                return current
             })
             
             elevator.goToFloor(floor)
